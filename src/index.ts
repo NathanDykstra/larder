@@ -20,13 +20,13 @@ const con = mysql.createConnection({
 /**
  * Connect to the MySQL database.
  */
-con.connect((err) => {
-    if (err) {
-        throw err;
-    }
+// con.connect((err) => {
+//     if (err) {
+//         throw err;
+//     }
 
-   logger.info('Database connected');
-});
+//    logger.info('Database connected');
+// });
 
 // configure all the routes
 routes.register( app );
