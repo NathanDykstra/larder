@@ -10,7 +10,8 @@
             "severity": "warning",
             "options": [ "debug", "info", "log", "time", "timeEnd", "trace"]
         },
-        "no-magic-numbers": true
+        "no-magic-numbers": true,
+        "no-trailing-whitespace": [ true, "ignore-blank-lines" ]
     },
     "rulesDirectory": []
 }

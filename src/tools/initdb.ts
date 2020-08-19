@@ -27,8 +27,10 @@ const init = async () => {
         progressBar.start(statements.length - 1, 0);
         for ( const statement of statements ) {
 
+            // tslint:disable-next-line: no-magic-numbers
             if ( statement.length > 3 ) {
                 // execute each of the statements
+                // tslint:disable-next-line: no-magic-numbers
                 await sleep(1000);
                 progressBar.increment();
             }

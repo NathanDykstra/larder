@@ -1,32 +1,19 @@
-import express from "express";
-import dotenv from "dotenv";
-import * as routes from "../routes/index";
-import { logger } from "../util/logger";
-import * as mysql from "mysql";
+import express from 'express';
+import dotenv from 'dotenv';
+import * as routes from './routes/index';
+import { logger } from './util/logger';
+import path from 'path';
 
 dotenv.config();
+
+// mostly taken from https://developer.okta.com/blog/2018/11/15/node-express-typescript
 
 const app = express();
 const port = process.env.SERVER_PORT;
 
-// Configure the database connection
-const con = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME
-});
-
-/**
- * Connect to the MySQL database.
- */
-// con.connect((err) => {
-//     if (err) {
-//         throw err;
-//     }
-
-//    logger.info('Database connected');
-// });
+// review pug syntax: https://pugjs.org/api/getting-started.html
+app.set( 'views', path.join( __dirname, 'views' ) );
+app.set('view engine', 'pug');
 
 // configure all the routes
 routes.register( app );
