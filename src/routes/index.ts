@@ -27,6 +27,8 @@ export const register = ( app: express.Application ) => {
     app.get('/lookup/:barcode', (req, res) => {
         logger.debug('lookup', req.params);
 
+        // TODO: perform database lookup
+
         res.json({barcode: req.params.barcode}).status(HttpStatus.OK);
     });
 
