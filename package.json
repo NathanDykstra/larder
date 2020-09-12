@@ -10,7 +10,7 @@
     "tsc": "tsc",
     "build": "npm-run-all clean lint tsc copy-assets",
     "dev:start": "npm-run-all build start",
-    "dev": "nodemon --watch src -e ts,ejs --exec npm run dev:start",
+    "dev": "nodemon --watch src -e ts,pug --exec npm run dev:start",
     "start": "node .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "initdb": "ts-node ./tools/initdb"
@@ -29,15 +29,20 @@
   "dependencies": {
     "@types/cli-progress": "^3.8.0",
     "@types/filesystem": "0.0.29",
+    "@types/mssql": "^6.0.4",
     "@types/mysql": "^2.15.15",
     "@types/pug": "^2.0.4",
+    "@types/sqlstring": "^2.2.1",
     "@types/winston-syslog": "^2.0.3",
     "cli-progress": "^3.8.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "http-status-codes": "^1.4.0",
+    "mssql": "^6.2.1",
     "mysql": "^2.18.1",
+    "object-hash": "^2.0.3",
     "pug": "^3.0.0",
+    "sqlstring": "^2.3.2",
     "winston": "^3.3.3"
   },
   "devDependencies": {

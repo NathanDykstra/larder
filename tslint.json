@@ -11,7 +11,8 @@
             "options": [ "debug", "info", "log", "time", "timeEnd", "trace"]
         },
         "no-magic-numbers": true,
-        "no-trailing-whitespace": [ true, "ignore-blank-lines" ]
+        "no-trailing-whitespace": [ true, "ignore-blank-lines" ],
+        "no-unnecessary-initializer": false
     },
     "rulesDirectory": []
 }

@@ -8,9 +8,9 @@ const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_gre
 
 function sleep(ms: number) {
     return new Promise((resolve) => {
-      setTimeout(resolve, ms);
+        setTimeout(resolve, ms);
     });
-  }
+}
 
 /**
  * Initialize the database by creating tables.
