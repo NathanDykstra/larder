@@ -1,12 +1,14 @@
 import * as express from 'express';
 import * as HttpStatus from 'http-status-codes';
 import { logger } from '../util/logger';
+import { lookupBarcode, errors } from '../data/connection';
+import { Item } from '../models/Item';
 
 /**
  * Configures the routes that the app should handle.
  * @param app The express app.
  */
-export const register = ( app: express.Application ) => {
+export const register = (app: express.Application) => {
     /**
      * Gets the start page for larder.
      */
@@ -14,10 +16,10 @@ export const register = ( app: express.Application ) => {
         logger.debug('/');
 
         const pugData = {
-            windowUrl: req.protocol + '://' + req.get('host') + `/lookup/088354548300`
+            windowUrl: req.protocol + '://' + req.get('host') + `/lookup/088354548300`,
+            errors
         };
 
-        // TODO: check that the database was initialized and return index if good, error if not
         res.render('index', pugData);
     });
 
@@ -27,9 +29,20 @@ export const register = ( app: express.Application ) => {
     app.get('/lookup/:barcode', (req, res) => {
         logger.debug('lookup', req.params);
 
-        // TODO: perform database lookup
+        lookupBarcode(req.params.barcode, (item: Item) =>{
+            res.json(item).status(HttpStatus.OK);
+        }, (errorMsg: string) => {
+            res.json({error: errorMsg}).status(HttpStatus.NOT_FOUND);
+        });
+    });
 
-        res.json({barcode: req.params.barcode}).status(HttpStatus.OK);
+    /**
+     * Adds an item to the master inventory list.
+     */
+    app.put('/addItem', (req, res) => {
+        logger.debug('addItem', req.body);
+
+        res.status(HttpStatus.OK).send();
     });
 
     /**

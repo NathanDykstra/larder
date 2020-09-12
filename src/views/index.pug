@@ -3,9 +3,15 @@ html
     title Success
   body
     h1 Welcome to larder!
-    p You have successfully installed and started the larder server.
+    p You have successfully installed the larder server.
     p Report issues to 
-        a(href='https://github.com/NathanDykstra/larder/issues') https://github.com/NathanDykstra/larder/issues
-    h2 Start by making your first request
-    p Send a `GET` request to 
+      a(href='https://github.com/NathanDykstra/larder/issues') https://github.com/NathanDykstra/larder/issues
+      if errors.length > 0
+        h2 There were errors during startup:
+        ul
+          each error in errors
+            li=error
+      else
+        h2 Start by making your first request
+        p Send a `GET` request to 
         a(href=windowUrl) /lookup/088354548300
