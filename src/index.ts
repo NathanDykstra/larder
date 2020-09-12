@@ -4,6 +4,7 @@ import * as routes from './routes/index';
 import { logger } from './util/logger';
 import path from 'path';
 import { connectDatabase } from './data/connection';
+import bodyParser from 'body-parser';
 
 dotenv.config();
 connectDatabase();
@@ -12,6 +13,8 @@ connectDatabase();
 
 const app = express();
 const port = process.env.SERVER_PORT;
+
+app.use(bodyParser.json());
 
 // review pug syntax: https://pugjs.org/api/getting-started.html
 app.set('views', path.join( __dirname, 'views' ));

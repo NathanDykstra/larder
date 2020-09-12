@@ -27,6 +27,7 @@
   },
   "homepage": "https://github.com/NathanDykstra/larder#readme",
   "dependencies": {
+    "@types/body-parser": "^1.19.0",
     "@types/cli-progress": "^3.8.0",
     "@types/filesystem": "0.0.29",
     "@types/mssql": "^6.0.4",
@@ -34,6 +35,7 @@
     "@types/pug": "^2.0.4",
     "@types/sqlstring": "^2.2.1",
     "@types/winston-syslog": "^2.0.3",
+    "body-parser": "^1.19.0",
     "cli-progress": "^3.8.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
