@@ -1,3 +1,16 @@
+import * as Joi from 'joi';
+
+const schema = Joi.object({
+    Barcode: Joi.string().required(),
+    Name: Joi.string(),
+    Description: Joi.string(),
+    Quantity: Joi.number().required(),
+    UoMId: Joi.number().required(),
+    BrandId: Joi.number().required(),
+    TypeId: Joi.number().required(),
+    Note: Joi.string()
+})
+
 /**
  * Interface for the Item class.
  */
@@ -15,7 +28,7 @@ export interface IItem {
 /**
  * Represents an Item.
  */
-export class Item {
+export class Item implements IItem {
 
     /**
      * Instantiates a new instance of an Item.
@@ -35,7 +48,7 @@ export class Item {
         public Quantity: number = -1,
         public UoMId: number = -1,
         public BrandId: number = -1,
-        public Type: number = -1,
+        public TypeId: number = -1,
         public Note: string | undefined = undefined,
     ) { }
 
@@ -43,20 +56,23 @@ export class Item {
      * Deserializes the JSON into an Item.
      * @param json
      */
-    static fromJson = (json: IItem) => {
-        if (json) {
+    static fromJson = (json: any) => {
+        const { error, value } = schema.validate(json);
+
+        if (!error) {
+            const item = value as IItem;
             return new Item(
-                json.Barcode,
-                json.Name,
-                json.Description,
-                json.Quantity,
-                json.UoMId,
-                json.BrandId,
-                json.TypeId,
-                json.Note
+                item.Barcode,
+                item.Name,
+                item.Description,
+                item.Quantity,
+                item.UoMId,
+                item.BrandId,
+                item.TypeId,
+                item.Note
             );
         }
 
-        return new Item();
+        throw error;
     }
 }

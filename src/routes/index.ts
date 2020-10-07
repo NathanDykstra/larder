@@ -3,6 +3,7 @@ import * as HttpStatus from 'http-status-codes';
 import { logger } from '../util/logger';
 import { lookupBarcode, errors } from '../data/connection';
 import { Item } from '../models/Item';
+import { ValidationError } from 'joi';
 
 /**
  * Configures the routes that the app should handle.
@@ -42,7 +43,15 @@ export const register = (app: express.Application) => {
     app.put('/addItem', (req, res) => {
         logger.debug('addItem', req.body);
 
-        res.status(HttpStatus.OK).send();
+        try {
+            // validate input is actually an item
+            const item = Item.fromJson(req.body);
+
+            res.status(HttpStatus.OK).json(item);
+        } catch (error) {
+            const { details } = error as ValidationError;
+            res.status(HttpStatus.BAD_REQUEST).json(details);
+        }
     });
 
     /**
