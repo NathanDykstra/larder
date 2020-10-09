@@ -5,6 +5,7 @@ import { logger } from './util/logger';
 import path from 'path';
 import { connectDatabase } from './data/connection';
 import bodyParser from 'body-parser';
+import "reflect-metadata";
 
 dotenv.config();
 connectDatabase();

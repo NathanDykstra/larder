@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as HttpStatus from 'http-status-codes';
 import { logger } from '../util/logger';
-import { lookupBarcode, errors } from '../data/connection';
+import { lookupBarcode, errors, addItemToLibrary } from '../data/connection';
 import { Item } from '../models/Item';
 import { ValidationError } from 'joi';
 
@@ -30,11 +30,17 @@ export const register = (app: express.Application) => {
     app.get('/lookup/:barcode', (req, res) => {
         logger.debug('lookup', req.params);
 
-        lookupBarcode(req.params.barcode, (item: Item) =>{
-            res.json(item).status(HttpStatus.OK);
-        }, (errorMsg: string) => {
-            res.json({error: errorMsg}).status(HttpStatus.NOT_FOUND);
-        });
+        lookupBarcode(req.params.barcode)
+            .then(item => {
+                if (item) {
+                    res.json(item).status(HttpStatus.OK);
+                } else {
+                    res.json({error: `No item by that barcode was found`}).status(HttpStatus.NOT_FOUND);
+                }
+            })
+            .catch(error => {
+                res.json({error}).status(HttpStatus.BAD_REQUEST);
+            });
     });
 
     /**
@@ -46,8 +52,13 @@ export const register = (app: express.Application) => {
         try {
             // validate input is actually an item
             const item = Item.fromJson(req.body);
-
-            res.status(HttpStatus.OK).json(item);
+            addItemToLibrary(item)
+            .then(inserted => {
+                res.status(HttpStatus.OK).json(inserted);
+            })
+            .catch(error => {
+                res.status(HttpStatus.CONFLICT).json({error});
+            })
         } catch (error) {
             const { details } = error as ValidationError;
             res.status(HttpStatus.BAD_REQUEST).json(details);
