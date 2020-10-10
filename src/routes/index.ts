@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as HttpStatus from 'http-status-codes';
 import { logger } from '../util/logger';
-import { lookupBarcode, errors, addItemToLibrary } from '../data/connection';
+import { getItem, errors, addItemToLibrary } from '../data/connection';
 import { Item } from '../models/Item';
 import { ValidationError } from 'joi';
 
@@ -30,7 +30,7 @@ export const register = (app: express.Application) => {
     app.get('/lookup/:barcode', (req, res) => {
         logger.debug('lookup', req.params);
 
-        lookupBarcode(req.params.barcode)
+        getItem(req.params.barcode)
             .then(item => {
                 if (item) {
                     res.json(item).status(HttpStatus.OK);

@@ -52,7 +52,7 @@ export const connectDatabase = () => {
  * Looks up product info for the given barcode.
  * @param barcode The barcode to search for.
  */
-export const lookupBarcode = (barcode: string): Promise<Item> => {
+export const getItem = (barcode: string): Promise<Item> => {
     return dbConnection.getRepository(Item).findOne(barcode);
 };
 
@@ -62,7 +62,7 @@ export const lookupBarcode = (barcode: string): Promise<Item> => {
  */
 export const addItemToLibrary = (item: IItem): Promise<Item> => {
     return new Promise((resolve, reject) => {
-        lookupBarcode(item.Barcode)
+        getItem(item.Barcode)
         .then(_ =>{
             // item found, can't add
             reject(`An item with that barcode already exists`);
