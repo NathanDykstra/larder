@@ -1,3 +1,20 @@
+import * as Joi from 'joi';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
+
+/**
+ * Database schema for the Item model.
+ */
+const schema = Joi.object({
+    Barcode: Joi.string().required(),
+    Name: Joi.string(),
+    Description: Joi.string(),
+    Quantity: Joi.number().required(),
+    UoMId: Joi.number().required(),
+    BrandId: Joi.number().required(),
+    TypeId: Joi.number().required(),
+    Note: Joi.string()
+})
+
 /**
  * Interface for the Item class.
  */
@@ -15,48 +32,77 @@ export interface IItem {
 /**
  * Represents an Item.
  */
-export class Item {
+@Entity({name: 'Item'})
+export class Item implements IItem {
+
+    @PrimaryColumn()
+    Barcode: string;
+
+    @Column()
+    Name: string;
+
+    @Column({nullable: true})
+    Description: string;
+
+    @Column({nullable: true})
+    Quantity: number;
+
+    @Column({nullable: true})
+    UoMId: number;
+
+    @Column({nullable: true})
+    BrandId: number;
+
+    @Column({nullable: true})
+    TypeId: number;
+
+    @Column({nullable: true})
+    Note: string;
 
     /**
      * Instantiates a new instance of an Item.
-     * @param Barcode
-     * @param Name
-     * @param Description
-     * @param Quantity
-     * @param UoMId
-     * @param BrandId
-     * @param TypeId
-     * @param Note
      */
     constructor(
-        public Barcode: string = '',
-        public Name: string = '',
-        public Description: string | undefined = undefined,
-        public Quantity: number = -1,
-        public UoMId: number = -1,
-        public BrandId: number = -1,
-        public Type: number = -1,
-        public Note: string | undefined = undefined,
-    ) { }
+        barcode: string = '',
+        name: string = '',
+        description: string | undefined = undefined,
+        quantity: number = -1,
+        uomId: number = -1,
+        brandId: number = -1,
+        typeId: number = -1,
+        note: string | undefined = undefined,
+    ) {
+        this.Barcode = barcode;
+        this.Name = name;
+        this.Description = description;
+        this.Quantity = quantity;
+        this.UoMId = uomId;
+        this.BrandId = brandId;
+        this.TypeId = typeId;
+        this.Note = note;
+     }
 
     /**
      * Deserializes the JSON into an Item.
      * @param json
      */
-    static fromJson = (json: IItem) => {
-        if (json) {
+    static fromJson = (json: any) => {
+        const { error, value } = schema.validate(json);
+
+        if (!error) {
+            const item = value as IItem;
             return new Item(
-                json.Barcode,
-                json.Name,
-                json.Description,
-                json.Quantity,
-                json.UoMId,
-                json.BrandId,
-                json.TypeId,
-                json.Note
+                item.Barcode,
+                item.Name,
+                item.Description,
+                item.Quantity,
+                item.UoMId,
+                item.BrandId,
+                item.TypeId,
+                item.Note
             );
         }
 
-        return new Item();
+        throw error;
     }
 }
