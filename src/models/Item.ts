@@ -1,6 +1,9 @@
 import * as Joi from 'joi';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
+/**
+ * Database schema for the Item model.
+ */
 const schema = Joi.object({
     Barcode: Joi.string().required(),
     Name: Joi.string(),
