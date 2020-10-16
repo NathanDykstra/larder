@@ -27,5 +27,5 @@ routes.register(app);
 // start the Express server
 app.listen( port, () => {
     // tslint:disable-next-line:no-console
-    logger.info( `server started at http://localhost:${ port }` );
+    logger.info(`server started at http://localhost:${ port }`);
 } );

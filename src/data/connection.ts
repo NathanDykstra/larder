@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import { logger } from '../util/logger';
+import { logger, TypeOrmLogger } from '../util/logger';
 import { IItem, Item } from '../models/Item';
 import { Connection, createConnection, DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
 
@@ -42,7 +42,8 @@ export const connectDatabase = () => {
             entities: [
                 Item
             ],
-            synchronize: true
+            synchronize: true,
+            logger: new TypeOrmLogger()
         }).then(connection => {
             logger.info('Database connected');
             dbConnection = connection;
