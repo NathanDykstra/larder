@@ -1,7 +1,8 @@
 import dotenv from 'dotenv';
 import { logger, TypeOrmLogger } from '@util/logger';
 import { Item } from '@models/Item';
-import { Connection, createConnection, DeleteResult, InsertResult, Repository, UpdateResult } from 'typeorm';
+import { Connection, createConnection, Repository } from 'typeorm';
+import { UnitOfMeasure } from '@models/UnitOfMeasure';
 
 dotenv.config();
 const dbType: any = process.env.DB_TYPE;
@@ -22,6 +23,11 @@ let dbConnection: Connection;
 export let itemRepository: Repository<Item>;
 
 /**
+ * Repository for accessing UoM data.
+ */
+export let uomRepository: Repository<UnitOfMeasure>;
+
+/**
  * Errors from any database operations.
  */
 export let errors: string[] = [];
@@ -40,7 +46,8 @@ export const connectDatabase = () => {
             password: process.env.DB_PASS,
             database: process.env.DB_NAME,
             entities: [
-                Item
+                Item,
+                UnitOfMeasure
             ],
             synchronize: true,
             logger: new TypeOrmLogger()
@@ -49,8 +56,9 @@ export const connectDatabase = () => {
             dbConnection = connection;
 
             itemRepository = dbConnection.getRepository(Item);
+            uomRepository = dbConnection.getRepository(UnitOfMeasure);
         }).catch(error => {
-            logger.error('Unable to connect to MySQL Server');
+            logger.error('Unable to connect to database server');
             logger.error(error);
         });
     }

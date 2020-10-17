@@ -2,7 +2,6 @@ import { IItem, Item } from '@models/Item';
 import { InsertResult, DeleteResult, UpdateResult } from 'typeorm';
 import { itemRepository } from '@data/connection';
 
-
 /**
  * Gets the item from the library.
  * @param barcode The barcode to search for.
