@@ -10,6 +10,10 @@
         "outDir": "dist",
         "baseUrl": "./",
         "paths": {
+            "@models/*": ["src/models/*"],
+            "@data/*": ["src/data/*"],
+            "@util/*": ["src/util/*"],
+            "@routes/*": ["src/routes/*"],
             "*": [
                 "node_modules/*"
             ]

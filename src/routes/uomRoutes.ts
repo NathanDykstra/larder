@@ -1,29 +1,29 @@
-import * as express from 'express';
+import { deleteUom, getUom, saveUom, updateUom } from '@data/uom';
+import { UnitOfMeasure } from '@models/UnitOfMeasure';
 import { logger } from '@util/logger';
-import { Item } from '@models/Item';
+import * as express from 'express';
+import * as HttpStatus from 'http-status-codes';
 import { ValidationError } from 'joi';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
-import * as HttpStatus from 'http-status-codes';
-import { deleteItemFromLibrary, getItem, saveItemToLibrary, updateItemInLibrary } from '@data/item';
 
 /**
- * Configure the routes for accessing Item data.
+ * Configure the routes for accessing Unit of Measure data.
  * @param app The express app.
  */
-export const registerItemRoutes = (app: express.Application) => {
+export const registerUomRoutes = (app: express.Application) => {
 
     /**
-     * Looks up the product by barcode and sends back the data.
+     *
      */
-    app.get('/item/:barcode', (req, res) => {
-        logger.debug('get item', req.params);
+    app.get('/uom/:id', (req, res) => {
+        logger.debug('get uom', req.params);
 
-        getItem(req.params.barcode)
-            .then(item => {
-                if (item) {
-                    res.json(item).status(HttpStatus.OK);
+        getUom(Number(req.params.id))
+            .then(uom => {
+                if (uom) {
+                    res.json(uom).status(HttpStatus.OK);
                 } else {
-                    res.json({error: `No item by that barcode was found`}).status(HttpStatus.NOT_FOUND);
+                    res.json({error: `No unit of measure by that ID was found`}).status(HttpStatus.NOT_FOUND);
                 }
             })
             .catch(error => {
@@ -32,17 +32,17 @@ export const registerItemRoutes = (app: express.Application) => {
     });
 
     /**
-     * Adds an item to the master inventory list.
+     * Adds a uom.
      */
-    app.post('/item', (req, res) => {
-        logger.debug('add item', req.body);
+    app.post('/uom', (req, res) => {
+        logger.debug('add uom', req.body);
 
         try {
-            // validate input is actually an item
-            const item = Item.fromJson(req.body);
-            saveItemToLibrary(item)
+            // validate input is actually a uom
+            const uom = UnitOfMeasure.fromJson(req.body);
+            saveUom(uom)
                 .then((inserted: InsertResult) => {
-                    res.status(HttpStatus.OK).json(inserted);
+                    res.status(HttpStatus.OK).json(inserted.identifiers[0]);
                 })
                 .catch(error => {
                     res.status(HttpStatus.CONFLICT).json(error);
@@ -54,15 +54,15 @@ export const registerItemRoutes = (app: express.Application) => {
     });
 
     /**
-     * Updates an existing Item in the library.
+     * Updates the UoM record.
      */
-    app.put('/item', (req, res) => {
-        logger.debug('update item', req.body);
+    app.put('/uom', (req, res) => {
+        logger.debug('update uom', req.body);
 
         try {
-            const item = Item.fromJson(req.body);
+            const uom = UnitOfMeasure.fromJson(req.body);
 
-            updateItemInLibrary(item)
+            updateUom(uom)
                 .then((updated: UpdateResult) => {
                     res.status(HttpStatus.OK).json(updated);
                 })
@@ -76,12 +76,12 @@ export const registerItemRoutes = (app: express.Application) => {
     });
 
     /**
-     * Deletes the Item from the library.
+     * Deletes the unit of measure.
      */
-    app.delete('/item/:barcode', (req, res) => {
-        logger.debug('delete item', req.params);
+    app.delete('/uom/:id', (req, res) => {
+        logger.debug('delete uom', req.params);
 
-        deleteItemFromLibrary(req.params.barcode)
+        deleteUom(Number(req.params.id))
             .then((deleted: DeleteResult) => {
                 res.status(HttpStatus.OK).json(deleted);
             })

@@ -26,6 +26,12 @@
     "url": "https://github.com/NathanDykstra/larder/issues"
   },
   "homepage": "https://github.com/NathanDykstra/larder#readme",
+  "_moduleAliases": {
+    "@models": "dist/models",
+    "@data": "dist/data",
+    "@util": "dist/util",
+    "@routes": "dist/routes"
+  },
   "dependencies": {
     "@types/body-parser": "^1.19.0",
     "@types/cli-progress": "^3.8.0",
@@ -42,6 +48,7 @@
     "express": "^4.17.1",
     "http-status-codes": "^1.4.0",
     "joi": "^17.2.1",
+    "module-alias": "^2.2.2",
     "mssql": "^6.2.1",
     "mysql": "^2.18.1",
     "pug": "^3.0.0",

@@ -1,3 +1,15 @@
+import Joi from 'joi';
+import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
+
+/**
+ * Database schema for the UoM model.
+ */
+const schema = Joi.object({
+    Id: Joi.number(),
+    Symbol: Joi.string().required(),
+    Description: Joi.string(),
+});
+
 /**
  * Interface for UnitOfMeasure
  */
@@ -10,7 +22,18 @@ export interface IUnitOfMeasure {
 /**
  * Represents a unit of measure.
  */
-export class UnitOfMeasure {
+@Unique(["Symbol"])
+@Entity({name: 'UnitOfMeasure'})
+export class UnitOfMeasure implements IUnitOfMeasure {
+
+    @PrimaryGeneratedColumn('increment')
+    Id: number;
+
+    @Column()
+    Symbol: string;
+
+    @Column({nullable: true})
+    Description: string;
 
     /**
      * Instantiates a new instance of UnitOfMeasure.
@@ -19,24 +42,31 @@ export class UnitOfMeasure {
      * @param Description
      */
     constructor(
-       public Id: number = -1,
-       public Symbol: string = '',
-       public Description: string = ''
-    ) {}
+        id: number = -1,
+        symbol: string = '',
+        description: string | undefined = undefined,
+    ) {
+        this.Id = id;
+        this.Symbol = symbol;
+        this.Description = description;
+    }
 
     /**
      * Deserializes the JSON into a UnitOfMeasure.
      * @param data
      */
-    static fromJson = (data: IUnitOfMeasure) => {
-        if (data) {
+    static fromJson = (json: IUnitOfMeasure) => {
+        const { error, value } = schema.validate(json);
+
+        if (json) {
+            const uom = value as UnitOfMeasure;
             return new UnitOfMeasure(
-                data.Id,
-                data.Symbol,
-                data.Description
+                uom.Id,
+                uom.Symbol,
+                uom.Description
             );
         }
 
-        return new UnitOfMeasure();
+        throw error;;
     }
 }
