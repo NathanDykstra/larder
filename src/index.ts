@@ -1,9 +1,10 @@
+import 'module-alias/register';
 import express from 'express';
 import dotenv from 'dotenv';
-import * as routes from './routes/index';
-import { logger } from './util/logger';
+import * as routes from '@routes/index';
+import { logger } from '@util/logger';
 import path from 'path';
-import { connectDatabase } from './data/connection';
+import { connectDatabase } from '@data/connection';
 import bodyParser from 'body-parser';
 import "reflect-metadata";
 

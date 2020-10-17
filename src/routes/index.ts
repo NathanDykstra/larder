@@ -1,7 +1,7 @@
 import * as express from 'express';
-import { logger } from '../util/logger';
-import { errors } from '../data/connection';
-import { registerItemRoutes } from './itemRoutes';
+import { logger } from '@util/logger';
+import { errors } from '@data/connection';
+import { registerItemRoutes } from '@routes/itemRoutes';
 
 /**
  * Configures the routes that the app should handle.

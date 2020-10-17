@@ -1,10 +1,10 @@
 import * as express from 'express';
-import { logger } from '../util/logger';
-import { Item } from '../models/Item';
+import { logger } from '@util/logger';
+import { Item } from '@models/Item';
 import { ValidationError } from 'joi';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 import * as HttpStatus from 'http-status-codes';
-import { deleteItemFromLibrary, getItem, saveItemToLibrary, updateItemInLibrary } from '../data/connection';
+import { deleteItemFromLibrary, getItem, saveItemToLibrary, updateItemInLibrary } from '@data/item';
 
 /**
  * Configure the routes for accessing Item data.
