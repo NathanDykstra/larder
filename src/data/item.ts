@@ -1,4 +1,4 @@
-import { IItem, Item } from '@models/Item';
+import { Item } from '@models/Item';
 import { InsertResult, DeleteResult, UpdateResult } from 'typeorm';
 import { itemRepository } from '@data/connection';
 
@@ -14,7 +14,7 @@ export const getItem = (barcode: string): Promise<Item> => {
  * Adds the item to the library.
  * @param item The item to add.
  */
-export const saveItemToLibrary = (item: IItem): Promise<InsertResult> => {
+export const saveItemToLibrary = (item: Item): Promise<InsertResult> => {
     return new Promise((resolve, reject) => {
         getItem(item.Barcode)
             .then(_ => {
@@ -40,6 +40,6 @@ export const deleteItemFromLibrary = (barcode: string): Promise<DeleteResult> =>
  * Updates the item in the library.
  * @param item The item to update.
  */
-export const updateItemInLibrary = (item: IItem): Promise<UpdateResult> => {
+export const updateItemInLibrary = (item: Item): Promise<UpdateResult> => {
     return itemRepository.update(item.Barcode, item);
 }

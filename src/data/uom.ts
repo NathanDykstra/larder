@@ -1,4 +1,4 @@
-import { IUnitOfMeasure, UnitOfMeasure } from '@models/UnitOfMeasure';
+import { UnitOfMeasure } from '@models/UnitOfMeasure';
 import { uomRepository } from '@data/connection';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 
@@ -14,7 +14,7 @@ export const getUom = (id: number): Promise<UnitOfMeasure> => {
  * Saves the UoM.
  * @param uom
  */
-export const saveUom = (uom: IUnitOfMeasure): Promise<InsertResult> => {
+export const saveUom = (uom: UnitOfMeasure): Promise<InsertResult> => {
     return new Promise((resolve, reject) => {
         getUom(uom.Id)
             .then(_ => {
@@ -33,7 +33,7 @@ export const saveUom = (uom: IUnitOfMeasure): Promise<InsertResult> => {
  * Updates the unit of measure.
  * @param uom The unit of measure record.
  */
-export const updateUom = (uom: IUnitOfMeasure): Promise<UpdateResult> => {
+export const updateUom = (uom: UnitOfMeasure): Promise<UpdateResult> => {
     return uomRepository.update(uom.Id, uom);
 }
 

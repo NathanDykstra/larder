@@ -1,6 +1,7 @@
 import dotenv from 'dotenv';
 import { logger, TypeOrmLogger } from '@util/logger';
 import { Item } from '@models/Item';
+import { Location } from '@models/Location';
 import { Connection, createConnection, Repository } from 'typeorm';
 import { UnitOfMeasure } from '@models/UnitOfMeasure';
 
@@ -28,6 +29,11 @@ export let itemRepository: Repository<Item>;
 export let uomRepository: Repository<UnitOfMeasure>;
 
 /**
+ * Repository for accessing Location date.
+ */
+export let locationRepository: Repository<Location>;
+
+/**
  * Errors from any database operations.
  */
 export let errors: string[] = [];
@@ -47,7 +53,8 @@ export const connectDatabase = () => {
             database: process.env.DB_NAME,
             entities: [
                 Item,
-                UnitOfMeasure
+                UnitOfMeasure,
+                Location
             ],
             synchronize: true,
             logger: new TypeOrmLogger()
@@ -57,6 +64,7 @@ export const connectDatabase = () => {
 
             itemRepository = dbConnection.getRepository(Item);
             uomRepository = dbConnection.getRepository(UnitOfMeasure);
+            locationRepository = dbConnection.getRepository(Location);
         }).catch(error => {
             logger.error('Unable to connect to database server');
             logger.error(error);

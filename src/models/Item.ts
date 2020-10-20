@@ -16,24 +16,10 @@ const schema = Joi.object({
 })
 
 /**
- * Interface for the Item class.
- */
-export interface IItem {
-    Barcode: string,
-    Name: string,
-    Description: string | undefined,
-    Quantity: number,
-    UoMId: number,
-    BrandId: number,
-    TypeId: number,
-    Note: string | undefined
-}
-
-/**
  * Represents an Item.
  */
 @Entity({name: 'Item'})
-export class Item implements IItem {
+export class Item {
 
     @PrimaryColumn()
     Barcode: string;
@@ -90,7 +76,7 @@ export class Item implements IItem {
         const { error, value } = schema.validate(json);
 
         if (!error) {
-            const item = value as IItem;
+            const item = value as Item;
             return new Item(
                 item.Barcode,
                 item.Name,

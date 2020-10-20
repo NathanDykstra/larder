@@ -3,6 +3,7 @@ import { logger } from '@util/logger';
 import { errors } from '@data/connection';
 import { registerItemRoutes } from '@routes/itemRoutes';
 import { registerUomRoutes } from './uomRoutes';
+import { registerLocationRoutes } from './locationRoutes';
 
 /**
  * Configures the routes that the app should handle.
@@ -13,6 +14,8 @@ export const register = (app: express.Application) => {
     registerItemRoutes(app);
 
     registerUomRoutes(app);
+
+    registerLocationRoutes(app);
 
     /**
      * Gets the start page for larder.
