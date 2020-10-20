@@ -11,20 +11,11 @@ const schema = Joi.object({
 });
 
 /**
- * Interface for UnitOfMeasure
- */
-export interface IUnitOfMeasure {
-    Id: number,
-    Symbol: string,
-    Description: string
-}
-
-/**
  * Represents a unit of measure.
  */
 @Unique(["Symbol"])
 @Entity({name: 'UnitOfMeasure'})
-export class UnitOfMeasure implements IUnitOfMeasure {
+export class UnitOfMeasure {
 
     @PrimaryGeneratedColumn('increment')
     Id: number;
@@ -55,7 +46,7 @@ export class UnitOfMeasure implements IUnitOfMeasure {
      * Deserializes the JSON into a UnitOfMeasure.
      * @param data
      */
-    static fromJson = (json: IUnitOfMeasure) => {
+    static fromJson = (json: any) => {
         const { error, value } = schema.validate(json);
 
         if (json) {
@@ -67,6 +58,6 @@ export class UnitOfMeasure implements IUnitOfMeasure {
             );
         }
 
-        throw error;;
+        throw error;
     }
 }
