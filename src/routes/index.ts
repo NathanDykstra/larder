@@ -5,6 +5,7 @@ import { registerItemRoutes } from '@routes/itemRoutes';
 import { registerUomRoutes } from './uomRoutes';
 import { registerLocationRoutes } from './locationRoutes';
 import { registerBrandRoutes } from './brandRoutes';
+import { registerItemTypeRoutes } from './itemTypeRoutes';
 
 /**
  * Configures the routes that the app should handle.
@@ -19,6 +20,8 @@ export const register = (app: express.Application) => {
     registerLocationRoutes(app);
 
     registerBrandRoutes(app);
+
+    registerItemTypeRoutes(app);
 
     /**
      * Gets the start page for larder.

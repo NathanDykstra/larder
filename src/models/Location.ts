@@ -6,7 +6,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
  */
 const schema = Joi.object({
     Id: Joi.number(),
-    Symbol: Joi.string().required(),
+    Name: Joi.string().required(),
     Description: Joi.string(),
 });
 
