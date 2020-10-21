@@ -49,11 +49,12 @@ export class Location {
         const { error, value } = schema.validate(json);
 
         if (json) {
-            const uom = value as Location;
+            const location = value as Location;
+            
             return new Location(
-                uom.Id,
-                uom.Name,
-                uom.Description
+                location.Id,
+                location.Name,
+                location.Description
             );
         }
 
