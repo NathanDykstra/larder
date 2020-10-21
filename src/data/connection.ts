@@ -4,6 +4,7 @@ import { Item } from '@models/Item';
 import { Location } from '@models/Location';
 import { Connection, createConnection, Repository } from 'typeorm';
 import { UnitOfMeasure } from '@models/UnitOfMeasure';
+import { Brand } from '@models/Brand';
 
 dotenv.config();
 const dbType: any = process.env.DB_TYPE;
@@ -29,9 +30,14 @@ export let itemRepository: Repository<Item>;
 export let uomRepository: Repository<UnitOfMeasure>;
 
 /**
- * Repository for accessing Location date.
+ * Repository for accessing Location data.
  */
 export let locationRepository: Repository<Location>;
+
+/**
+ * Repository for accessing Brand data.
+ */
+export let brandRepository: Repository<Brand>;
 
 /**
  * Errors from any database operations.
@@ -54,7 +60,8 @@ export const connectDatabase = () => {
             entities: [
                 Item,
                 UnitOfMeasure,
-                Location
+                Location,
+                Brand
             ],
             synchronize: true,
             logger: new TypeOrmLogger()
@@ -65,6 +72,7 @@ export const connectDatabase = () => {
             itemRepository = dbConnection.getRepository(Item);
             uomRepository = dbConnection.getRepository(UnitOfMeasure);
             locationRepository = dbConnection.getRepository(Location);
+            brandRepository = dbConnection.getRepository(Brand);
         }).catch(error => {
             logger.error('Unable to connect to database server');
             logger.error(error);

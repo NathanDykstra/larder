@@ -1,32 +1,55 @@
+import * as Joi from 'joi';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
 /**
- * Interface for the Brand class.
+ * Database schema for the Brand model.
  */
-export interface IBrand {
-    Id: number,
-    Name: string
-}
+const schema = Joi.object({
+    Id: Joi.number(),
+    Name: Joi.string().required()
+})
 
 /**
  * Represents a Brand.
  */
+@Entity({name: "Brand"})
 export class Brand {
+
+    @PrimaryGeneratedColumn('increment')
+    Id: number;
+
+    @Column()
+    Name: string;
+
+    /**
+     * Instantiates a new instance of the Brand class.
+     * @param id
+     * @param name
+     */
     constructor(
-        public Id: number = -1,
-        public Name: string = ''
-    ){}
+        id: number = -1,
+        name: string = '',
+    ) {
+        this.Id = id;
+        this.Name = name;
+    }
 
     /**
      * Deserializes the JSON into an Brand.
      * @param json
      */
-    static fromJson = (json: IBrand) => {
+    static fromJson = (json: any) => {
+        const { error, value } = schema.validate(json);
+
         if (json) {
+            const brand = value as Brand;
+
             return new Brand(
-                json.Id,
-                json.Name
+                brand.Id,
+                brand.Name
             );
         }
 
-        return new Brand();
+        throw error;
     }
 }
