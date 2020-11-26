@@ -7,7 +7,7 @@ export class ShoppingList {
     @PrimaryGeneratedColumn('increment')
     Id: number;
     
-    @OneToMany(() => ShoppingList, shopList => shopList.Items)
+    @OneToMany(() => ShoppingListItem, shopListItem => shopListItem.ShoppingList)
     Items: ShoppingListItem[];
 
     constructor(
