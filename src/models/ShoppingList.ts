@@ -1,5 +1,13 @@
+import Joi from 'joi';
 import { Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ShoppingListItem } from './ShoppingListItem';
+
+/**
+ * Database schema for the UoM model.
+ */
+const schema = Joi.object({
+    Id: Joi.number(),
+});
 
 @Entity({name: 'ShoppingList'})
 export class ShoppingList {
@@ -14,5 +22,22 @@ export class ShoppingList {
         id: number = -1,
     ) {
         this.Id = id;
+    }
+
+    /**
+     * Deserializes the JSON into a ShoppingList.
+     * @param data
+     */
+    static fromJson = (json: any) => {
+        const { error, value } = schema.validate(json);
+
+        if (json) {
+            const shoppingList = value as ShoppingList;
+            return new ShoppingList(
+                shoppingList.Id
+            );
+        }
+
+        throw error;
     }
 }
