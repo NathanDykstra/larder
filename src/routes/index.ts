@@ -2,10 +2,11 @@ import * as express from 'express';
 import { logger } from '@util/logger';
 import { errors } from '@data/connection';
 import { registerItemRoutes } from '@routes/itemRoutes';
-import { registerUomRoutes } from './uomRoutes';
-import { registerLocationRoutes } from './locationRoutes';
-import { registerBrandRoutes } from './brandRoutes';
-import { registerItemTypeRoutes } from './itemTypeRoutes';
+import { registerUomRoutes } from '@routes/uomRoutes';
+import { registerLocationRoutes } from '@routes/locationRoutes';
+import { registerBrandRoutes } from '@routes/brandRoutes';
+import { registerItemTypeRoutes } from '@routes/itemTypeRoutes';
+import { registerShoppingListRoutes } from '@routes/shoppingListRoutes';
 
 /**
  * Configures the routes that the app should handle.
@@ -22,6 +23,8 @@ export const register = (app: express.Application) => {
     registerBrandRoutes(app);
 
     registerItemTypeRoutes(app);
+
+    registerShoppingListRoutes(app);
 
     /**
      * Gets the start page for larder.

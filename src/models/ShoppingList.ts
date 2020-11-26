@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import { Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { ShoppingListItem } from './ShoppingListItem';
+import { ShoppingListItem } from '@models/ShoppingListItem';
 
 /**
  * Database schema for the UoM model.

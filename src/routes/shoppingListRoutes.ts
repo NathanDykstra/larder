@@ -10,7 +10,7 @@ import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
  * Configure the routes for accessing Shopping List data.
  * @param app The express app.
  */
-export const registerUomRoutes = (app: express.Application) => {
+export const registerShoppingListRoutes = (app: express.Application) => {
 
     /**
      *
