@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ShoppingListItem } from './ShoppingListItem';
 
 @Entity({name: 'ShoppingList'})
@@ -7,7 +7,7 @@ export class ShoppingList {
     @PrimaryGeneratedColumn('increment')
     Id: number;
     
-    @ManyToOne(() => ShoppingList, shopList => shopList.Items)
+    @OneToMany(() => ShoppingList, shopList => shopList.Items)
     Items: ShoppingListItem[];
 
     constructor(

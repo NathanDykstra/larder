@@ -6,6 +6,8 @@ import { Connection, createConnection, Repository } from 'typeorm';
 import { UnitOfMeasure } from '@models/UnitOfMeasure';
 import { Brand } from '@models/Brand';
 import { ItemType } from '@models/ItemType';
+import { ShoppingList } from '@models/ShoppingList';
+import { ShoppingListItem } from '@models/ShoppingListItem';
 
 dotenv.config();
 const dbType: any = process.env.DB_TYPE;
@@ -46,6 +48,16 @@ export let brandRepository: Repository<Brand>;
 export let itemTypeRepository: Repository<ItemType>;
 
 /**
+ * Repository for accesing ShoppingList data.
+ */
+export let shoppingListRepository: Repository<ShoppingList>;
+
+/**
+ * Repository for accessing ShoppingListItem data.
+ */
+export let shoppingListItemRepository: Repository<ShoppingListItem>;
+
+/**
  * Errors from any database operations.
  */
 export let errors: string[] = [];
@@ -68,7 +80,9 @@ export const connectDatabase = () => {
                 UnitOfMeasure,
                 Location,
                 Brand,
-                ItemType
+                ItemType,
+                ShoppingList,
+                ShoppingListItem
             ],
             synchronize: true,
             logger: new TypeOrmLogger()
@@ -81,6 +95,8 @@ export const connectDatabase = () => {
             locationRepository = dbConnection.getRepository(Location);
             brandRepository = dbConnection.getRepository(Brand);
             itemTypeRepository = dbConnection.getRepository(ItemType);
+            shoppingListRepository = dbConnection.getRepository(ShoppingList);
+            shoppingListItemRepository = dbConnection.getRepository(ShoppingListItem);
         }).catch(error => {
             logger.error('Unable to connect to database server');
             logger.error(error);
