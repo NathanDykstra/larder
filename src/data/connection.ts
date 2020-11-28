@@ -13,11 +13,6 @@ dotenv.config();
 const dbType: any = process.env.DB_TYPE;
 
 /**
- * Currently supported database types.
- */
-const supportedDatabases = ['mysql', 'mssql'];
-
-/**
  * The database connection.
  */
 let dbConnection: Connection;
@@ -66,40 +61,35 @@ export let errors: string[] = [];
  * Connects to the database.
  */
 export const connectDatabase = () => {
-    if (supportedDatabases.indexOf(dbType) < 0) {
-        errors.push(`Unsupported database type ${dbType}. Cannot communicate with database.`);
-    } else {
-        createConnection({
-            type: dbType,
-            host: process.env.DB_HOST,
-            username: process.env.DB_USER,
-            password: process.env.DB_PASS,
-            database: process.env.DB_NAME,
-            entities: [
-                Item,
-                UnitOfMeasure,
-                Location,
-                Brand,
-                ItemType,
-                ShoppingList,
-                ShoppingListItem
-            ],
-            synchronize: true,
-            logger: new TypeOrmLogger()
-        }).then(connection => {
-            logger.info('Database connected');
-            dbConnection = connection;
-
-            itemRepository = dbConnection.getRepository(Item);
-            uomRepository = dbConnection.getRepository(UnitOfMeasure);
-            locationRepository = dbConnection.getRepository(Location);
-            brandRepository = dbConnection.getRepository(Brand);
-            itemTypeRepository = dbConnection.getRepository(ItemType);
-            shoppingListRepository = dbConnection.getRepository(ShoppingList);
-            shoppingListItemRepository = dbConnection.getRepository(ShoppingListItem);
-        }).catch(error => {
-            logger.error('Unable to connect to database server');
-            logger.error(error);
-        });
-    }
+    createConnection({
+        type: dbType,
+        host: process.env.DB_HOST,
+        username: process.env.DB_USER,
+        password: process.env.DB_PASS,
+        database: process.env.DB_NAME,
+        entities: [
+            Item,
+            UnitOfMeasure,
+            Location,
+            Brand,
+            ItemType,
+            ShoppingList,
+            ShoppingListItem
+        ],
+        synchronize: true,
+        logger: new TypeOrmLogger()
+    }).then(connection => {
+        dbConnection = connection;
+        itemRepository = dbConnection.getRepository(Item);
+        uomRepository = dbConnection.getRepository(UnitOfMeasure);
+        locationRepository = dbConnection.getRepository(Location);
+        brandRepository = dbConnection.getRepository(Brand);
+        itemTypeRepository = dbConnection.getRepository(ItemType);
+        shoppingListRepository = dbConnection.getRepository(ShoppingList);
+        shoppingListItemRepository = dbConnection.getRepository(ShoppingListItem);
+        logger.info('Database connected');
+    }).catch(error => {
+        logger.error('Unable to connect to database server');
+        logger.error(error);
+    });
 };
