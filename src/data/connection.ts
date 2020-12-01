@@ -57,6 +57,12 @@ export let shoppingListItemRepository: Repository<ShoppingListItem>;
  */
 export let errors: string[] = [];
 
+// configure typeorm log levels; all logging in dev
+const dbLoggingLevels: any[] = ['error'];
+if (process.env.NODE_ENV === 'development') {
+    dbLoggingLevels.push('all');
+}
+
 /**
  * Connects to the database.
  */
@@ -77,7 +83,8 @@ export const connectDatabase = () => {
             ShoppingListItem
         ],
         synchronize: true,
-        logger: new TypeOrmLogger()
+        logger: new TypeOrmLogger(),
+        logging: dbLoggingLevels
     }).then(connection => {
         dbConnection = connection;
         itemRepository = dbConnection.getRepository(Item);
