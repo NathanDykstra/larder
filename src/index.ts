@@ -9,9 +9,8 @@ import bodyParser from 'body-parser';
 import "reflect-metadata";
 
 dotenv.config();
-connectDatabase();
 
-// mostly taken from https://developer.okta.com/blog/2018/11/15/node-express-typescript
+connectDatabase();
 
 const app = express();
 const port = process.env.SERVER_PORT;
@@ -26,7 +25,6 @@ app.set('view engine', 'pug');
 routes.register(app);
 
 // start the Express server
-app.listen( port, () => {
-    // tslint:disable-next-line:no-console
+export const server = app.listen( port, () => {
     logger.info(`server started at http://localhost:${ port }`);
 } );

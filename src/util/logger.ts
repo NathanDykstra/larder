@@ -23,9 +23,9 @@ export const logger = winston.createLogger({
 });
 
 /**
- * Add console log in non-production environment.
+ * Add console log in development environment.
  */
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'development') {
     logger.add(new winston.transports.Console({
         format: winston.format.simple(),
         level: 'debug'

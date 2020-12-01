@@ -3,7 +3,7 @@ import { Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ShoppingListItem } from '@models/ShoppingListItem';
 
 /**
- * Database schema for the UoM model.
+ * Database schema for the Shopping List model.
  */
 const schema = Joi.object({
     Id: Joi.number(),

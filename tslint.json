@@ -12,7 +12,8 @@
         },
         "no-magic-numbers": true,
         "no-trailing-whitespace": [ true, "ignore-blank-lines" ],
-        "no-unnecessary-initializer": false
+        "no-unnecessary-initializer": false,
+        "no-unused-expression": false
     },
     "rulesDirectory": []
 }
