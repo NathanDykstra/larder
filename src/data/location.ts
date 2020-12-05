@@ -1,13 +1,12 @@
-import { locationRepository } from '@data/connection';
 import { Location } from '@models/Location';
-import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
+import { DeleteResult, getRepository, InsertResult, UpdateResult } from 'typeorm';
 
 /**
  * Gets the Location record by ID.
  * @param id The ID of the record.
  */
 export const getLocation = (id: number): Promise<Location> => {
-    return locationRepository.findOneOrFail(id);
+    return getRepository(Location).findOneOrFail(id);
 };
 
 /**
@@ -24,7 +23,7 @@ export const saveLocation = (location: Location): Promise<InsertResult> => {
             .catch(_ => {
                 // item not found, add it
                 location.Id = undefined;
-                resolve(locationRepository.insert(location));
+                resolve(getRepository(Location).insert(location));
             });
     });
 }
@@ -34,7 +33,7 @@ export const saveLocation = (location: Location): Promise<InsertResult> => {
  * @param uom The location record.
  */
 export const updateLocation = (location: Location): Promise<UpdateResult> => {
-    return locationRepository.update(location.Id, location);
+    return getRepository(Location).update(location.Id, location);
 }
 
 /**
@@ -42,5 +41,5 @@ export const updateLocation = (location: Location): Promise<UpdateResult> => {
  * @param id The ID of the record to delete
  */
 export const deleteLocation = (id: number): Promise<DeleteResult> => {
-    return locationRepository.delete(id);
+    return getRepository(Location).delete(id);
 }

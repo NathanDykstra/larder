@@ -1,13 +1,12 @@
 import { Item } from '@models/Item';
-import { InsertResult, DeleteResult, UpdateResult } from 'typeorm';
-import { itemRepository } from '@data/connection';
+import { InsertResult, DeleteResult, UpdateResult, getRepository } from 'typeorm';
 
 /**
  * Gets the item from the library.
  * @param barcode The barcode to search for.
  */
 export const getItem = (barcode: string): Promise<Item> => {
-    return itemRepository.findOneOrFail(barcode);
+    return getRepository(Item).findOneOrFail(barcode);
 };
 
 /**
@@ -23,7 +22,7 @@ export const saveItemToLibrary = (item: Item): Promise<InsertResult> => {
             })
             .catch(_ => {
                 // item not found, add it
-                resolve(itemRepository.insert(item));
+                resolve(getRepository(Item).insert(item));
             });
     });
 }
@@ -33,7 +32,7 @@ export const saveItemToLibrary = (item: Item): Promise<InsertResult> => {
  * @param barcode The barcode of the item to remove from the master library.
  */
 export const deleteItemFromLibrary = (barcode: string): Promise<DeleteResult> => {
-    return itemRepository.delete(barcode);
+    return getRepository(Item).delete(barcode);
 }
 
 /**
@@ -41,5 +40,5 @@ export const deleteItemFromLibrary = (barcode: string): Promise<DeleteResult> =>
  * @param item The item to update.
  */
 export const updateItemInLibrary = (item: Item): Promise<UpdateResult> => {
-    return itemRepository.update(item.Barcode, item);
+    return getRepository(Item).update(item.Barcode, item);
 }

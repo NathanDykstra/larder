@@ -1,13 +1,12 @@
-import { brandRepository } from '@data/connection';
 import { Brand } from '@models/Brand';
-import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
+import { DeleteResult, getRepository, InsertResult, UpdateResult } from 'typeorm';
 
 /**
  * Gets the Brand record by ID.
  * @param id The ID of the record.
  */
 export const getBrand = (id: number): Promise<Brand> => {
-    return brandRepository.findOneOrFail(id);
+    return getRepository(Brand).findOneOrFail(id);
 };
 
 /**
@@ -24,7 +23,7 @@ export const saveBrand = (brand: Brand): Promise<InsertResult> => {
             .catch(_ => {
                 // item not found, add it
                 brand.Id = undefined;
-                resolve(brandRepository.insert(brand));
+                resolve(getRepository(Brand).insert(brand));
             });
     });
 }
@@ -34,7 +33,7 @@ export const saveBrand = (brand: Brand): Promise<InsertResult> => {
  * @param uom The brand record.
  */
 export const updateBrand = (brand: Brand): Promise<UpdateResult> => {
-    return brandRepository.update(brand.Id, brand);
+    return getRepository(Brand).update(brand.Id, brand);
 }
 
 /**
@@ -42,5 +41,5 @@ export const updateBrand = (brand: Brand): Promise<UpdateResult> => {
  * @param id The ID of the record to delete
  */
 export const deleteBrand = (id: number): Promise<DeleteResult> => {
-    return brandRepository.delete(id);
+    return getRepository(Brand).delete(id);
 }

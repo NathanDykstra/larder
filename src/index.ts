@@ -22,10 +22,9 @@ app.set('view engine', 'pug');
 // configure all the routes
 routes.register(app);
 
+connectDatabase();
+
 // start the Express server
-export const server = connectDatabase()
-    .then(() => {
-        return app.listen(port, () => {
-            logger.info(`server started at http://localhost:${ port }`);
-        })
-    });
+export const server = app.listen(port, () => {
+    logger.info(`server started at http://localhost:${ port }`);
+});

@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import { logger, TypeOrmLogger } from '@util/logger';
 import { Item } from '@models/Item';
 import { Location } from '@models/Location';
-import { Connection, createConnection, Repository } from 'typeorm';
+import { createConnection } from 'typeorm';
 import { UnitOfMeasure } from '@models/UnitOfMeasure';
 import { Brand } from '@models/Brand';
 import { ItemType } from '@models/ItemType';
@@ -11,46 +11,6 @@ import { ShoppingListItem } from '@models/ShoppingListItem';
 
 dotenv.config();
 const dbType: any = process.env.DB_TYPE;
-
-/**
- * The database connection.
- */
-let dbConnection: Connection;
-
-/**
- * Repository for accessing Item data.
- */
-export let itemRepository: Repository<Item>;
-
-/**
- * Repository for accessing UoM data.
- */
-export let uomRepository: Repository<UnitOfMeasure>;
-
-/**
- * Repository for accessing Location data.
- */
-export let locationRepository: Repository<Location>;
-
-/**
- * Repository for accessing Brand data.
- */
-export let brandRepository: Repository<Brand>;
-
-/**
- * Repository for accessing ItemType data.
- */
-export let itemTypeRepository: Repository<ItemType>;
-
-/**
- * Repository for accesing ShoppingList data.
- */
-export let shoppingListRepository: Repository<ShoppingList>;
-
-/**
- * Repository for accessing ShoppingListItem data.
- */
-export let shoppingListItemRepository: Repository<ShoppingListItem>;
 
 /**
  * Errors from any database operations.
@@ -67,7 +27,7 @@ if (process.env.NODE_ENV === 'development') {
  * Connects to the database.
  */
 export const connectDatabase = () => {
-    return createConnection({
+    createConnection({
         type: dbType,
         host: process.env.DB_HOST,
         username: process.env.DB_USER,
@@ -85,15 +45,7 @@ export const connectDatabase = () => {
         synchronize: true,
         logger: new TypeOrmLogger(),
         logging: dbLoggingLevels
-    }).then(connection => {
-        dbConnection = connection;
-        itemRepository = dbConnection.getRepository(Item);
-        uomRepository = dbConnection.getRepository(UnitOfMeasure);
-        locationRepository = dbConnection.getRepository(Location);
-        brandRepository = dbConnection.getRepository(Brand);
-        itemTypeRepository = dbConnection.getRepository(ItemType);
-        shoppingListRepository = dbConnection.getRepository(ShoppingList);
-        shoppingListItemRepository = dbConnection.getRepository(ShoppingListItem);
+    }).then(_ => {
         logger.info('Database connected');
     }).catch(error => {
         logger.error('Unable to connect to database server');

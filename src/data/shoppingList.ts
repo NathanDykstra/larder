@@ -1,13 +1,12 @@
 import { ShoppingList } from '@models/ShoppingList';
-import { shoppingListRepository } from '@data/connection';
-import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
+import { DeleteResult, getRepository, InsertResult, UpdateResult } from 'typeorm';
 
 /**
  * Gets the Shopping List record by ID.
  * @param id The ID of the record.
  */
 export const getShoppingList = (id: number): Promise<ShoppingList> => {
-    return shoppingListRepository.findOneOrFail(id);
+    return getRepository(ShoppingList).findOneOrFail(id);
 };
 
 /**
@@ -24,7 +23,7 @@ export const saveShoppingList = (shoppingList: ShoppingList): Promise<InsertResu
             .catch(_ => {
                 // item not found, add it
                 shoppingList.Id = undefined;
-                resolve(shoppingListRepository.insert(shoppingList));
+                resolve(getRepository(ShoppingList).insert(shoppingList));
             });
     });
 }
@@ -34,7 +33,7 @@ export const saveShoppingList = (shoppingList: ShoppingList): Promise<InsertResu
  * @param shoppingList The shopping list record.
  */
 export const updateShoppingList = (shoppingList: ShoppingList): Promise<UpdateResult> => {
-    return shoppingListRepository.update(shoppingList.Id, shoppingList);
+    return getRepository(ShoppingList).update(shoppingList.Id, shoppingList);
 }
 
 /**
@@ -42,5 +41,5 @@ export const updateShoppingList = (shoppingList: ShoppingList): Promise<UpdateRe
  * @param id The ID of the record to delete
  */
 export const deleteShoppingList = (id: number): Promise<DeleteResult> => {
-    return shoppingListRepository.delete(id);
+    return getRepository(ShoppingList).delete(id);
 }

@@ -1,13 +1,12 @@
 import { UnitOfMeasure } from '@models/UnitOfMeasure';
-import { uomRepository } from '@data/connection';
-import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
+import { DeleteResult, getRepository, InsertResult, UpdateResult } from 'typeorm';
 
 /**
  * Gets the Unit of Measure record by ID.
  * @param id The ID of the record.
  */
 export const getUom = (id: number): Promise<UnitOfMeasure> => {
-    return uomRepository.findOneOrFail(id);
+    return getRepository(UnitOfMeasure).findOneOrFail(id);
 };
 
 /**
@@ -24,7 +23,7 @@ export const saveUom = (uom: UnitOfMeasure): Promise<InsertResult> => {
             .catch(_ => {
                 // item not found, add it
                 uom.Id = undefined;
-                resolve(uomRepository.insert(uom));
+                resolve(getRepository(UnitOfMeasure).insert(uom));
             });
     });
 }
@@ -34,7 +33,7 @@ export const saveUom = (uom: UnitOfMeasure): Promise<InsertResult> => {
  * @param uom The unit of measure record.
  */
 export const updateUom = (uom: UnitOfMeasure): Promise<UpdateResult> => {
-    return uomRepository.update(uom.Id, uom);
+    return getRepository(UnitOfMeasure).update(uom.Id, uom);
 }
 
 /**
@@ -42,5 +41,5 @@ export const updateUom = (uom: UnitOfMeasure): Promise<UpdateResult> => {
  * @param id The ID of the record to delete
  */
 export const deleteUom = (id: number): Promise<DeleteResult> => {
-    return uomRepository.delete(id);
+    return getRepository(UnitOfMeasure).delete(id);
 }
