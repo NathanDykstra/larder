@@ -60,3 +60,15 @@ describe("update item", () => {
             });
 	});
 });
+
+describe("delete item", () => {
+	it("tests delete item", () => {
+        chai.request(server)
+            .delete('/item/1234')
+            .then(res => {
+                chai.expect(res.status).to.equal(HttpStatus.OK);
+                chai.expect(res).to.be.json;
+                chai.expect(res.text).to.not.be.empty;
+            });
+	});
+});
