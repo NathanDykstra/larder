@@ -1,13 +1,6 @@
 import dotenv from 'dotenv';
 import { logger, TypeOrmLogger } from '@util/logger';
-import { Item } from '@models/Item';
-import { Location } from '@models/Location';
 import { createConnection } from 'typeorm';
-import { UnitOfMeasure } from '@models/UnitOfMeasure';
-import { Brand } from '@models/Brand';
-import { ItemType } from '@models/ItemType';
-import { ShoppingList } from '@models/ShoppingList';
-import { ShoppingListItem } from '@models/ShoppingListItem';
 
 dotenv.config();
 const dbType: any = process.env.DB_TYPE;
@@ -33,15 +26,7 @@ export const connectDatabase = () => {
         username: process.env.DB_USER,
         password: process.env.DB_PASS,
         database: process.env.DB_NAME,
-        entities: [
-            Item,
-            UnitOfMeasure,
-            Location,
-            Brand,
-            ItemType,
-            ShoppingList,
-            ShoppingListItem
-        ],
+        entities: ['dist/models/*.js'],
         synchronize: true,
         logger: new TypeOrmLogger(),
         logging: dbLoggingLevels
