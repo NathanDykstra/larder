@@ -7,7 +7,7 @@ chai.use(chaiHttp);
 
 describe("get homepage", () => {
 	it("tests the base route", () => {
-		chai.request(server)
+		return chai.request(server)
 			.get('/')
 			.then(res => {
 				chai.expect(res.status).to.equal(HttpStatus.OK);
@@ -19,7 +19,7 @@ describe("get homepage", () => {
 
 describe("get bad url", () => {
 	it("tests redirect to base url", () => {
-		chai.request(server)
+		return chai.request(server)
 			.get('/this_is_garbage')
 			.then(res => {
 				chai.expect(res).redirectTo(/^.+?[^\/:](?=[?\/]|$)/);
