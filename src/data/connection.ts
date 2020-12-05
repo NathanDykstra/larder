@@ -67,7 +67,7 @@ if (process.env.NODE_ENV === 'development') {
  * Connects to the database.
  */
 export const connectDatabase = () => {
-    createConnection({
+    return createConnection({
         type: dbType,
         host: process.env.DB_HOST,
         username: process.env.DB_USER,

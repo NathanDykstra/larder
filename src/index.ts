@@ -10,8 +10,6 @@ import "reflect-metadata";
 
 dotenv.config();
 
-connectDatabase();
-
 const app = express();
 const port = process.env.SERVER_PORT;
 
@@ -25,6 +23,9 @@ app.set('view engine', 'pug');
 routes.register(app);
 
 // start the Express server
-export const server = app.listen( port, () => {
-    logger.info(`server started at http://localhost:${ port }`);
-} );
+export const server = connectDatabase()
+    .then(() => {
+        return app.listen(port, () => {
+            logger.info(`server started at http://localhost:${ port }`);
+        })
+    });
