@@ -43,6 +43,7 @@
     "mysql": "^2.18.1",
     "pug": "^3.0.0",
     "reflect-metadata": "^0.1.13",
+    "sql.js": "^1.4.0",
     "sqlstring": "^2.3.2",
     "typeorm": "^0.2.28",
     "winston": "^3.3.3"

@@ -29,7 +29,8 @@ export const connectDatabase = () => {
         entities: ['dist/models/*.js'],
         synchronize: true,
         logger: new TypeOrmLogger(),
-        logging: dbLoggingLevels
+        logging: dbLoggingLevels,
+        location: process.env.DB_LOCATION
     }).then(_ => {
         logger.info('Database connected');
     }).catch(error => {
