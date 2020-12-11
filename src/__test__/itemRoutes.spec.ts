@@ -22,7 +22,7 @@ describe("add item", () => {
             .then(res => {
                 chai.expect(res.status).to.equal(HttpStatus.OK);
                 chai.expect(res).to.be.json;
-                chai.expect(res.text).to.not.be.empty;
+                chai.expect(res.body).to.have.property('Barcode').equal('1234');
             });
 	});
 });
@@ -34,7 +34,12 @@ describe("get item", () => {
             .then(res => {
                 chai.expect(res.status).to.equal(HttpStatus.OK);
                 chai.expect(res).to.be.json;
-                chai.expect(res.text).to.not.be.empty;
+                chai.expect(res.body).to.have.property('Name').equal("Test Name");
+                chai.expect(res.body).to.have.property('Barcode').equal("1234");
+                chai.expect(res.body).to.have.property('Description').equal("Test Description");
+                // tslint:disable-next-line:no-magic-numbers
+                chai.expect(res.body).to.have.property('Quantity').equal(32);
+                chai.expect(res.body).to.have.property('Note').equal("This is a note");
             });
 	});
 });
