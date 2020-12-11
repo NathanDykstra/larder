@@ -42,7 +42,7 @@ export const registerItemRoutes = (app: express.Application) => {
             const item = Item.fromJson(req.body);
             saveItemToLibrary(item)
                 .then((inserted: InsertResult) => {
-                    res.status(HttpStatus.OK).json(inserted);
+                    res.status(HttpStatus.OK).json(inserted.identifiers[0]);
                 })
                 .catch(error => {
                     res.status(HttpStatus.CONFLICT).json(error);
