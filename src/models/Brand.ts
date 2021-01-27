@@ -43,7 +43,7 @@ export class Brand {
 
         if (json) {
             const brand = value as Brand;
-
+            
             return new Brand(
                 brand.Id,
                 brand.Name
