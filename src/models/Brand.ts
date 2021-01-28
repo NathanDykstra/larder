@@ -1,4 +1,4 @@
-import * as Joi from 'joi';
+import Joi from 'joi';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 /**
@@ -7,7 +7,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 const schema = Joi.object({
     Id: Joi.number(),
     Name: Joi.string().required()
-})
+});
 
 /**
  * Represents a Brand.
@@ -41,7 +41,7 @@ export class Brand {
     static fromJson = (json: any) => {
         const { error, value } = schema.validate(json);
 
-        if (json) {
+        if (!error) {
             const brand = value as Brand;
             
             return new Brand(
