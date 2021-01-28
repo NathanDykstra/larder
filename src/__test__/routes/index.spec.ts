@@ -1,4 +1,4 @@
-import { server } from '../index';
+import { server } from '../../index';
 import * as HttpStatus from 'http-status-codes';
 import chai from 'chai';
 import chaiHttp from 'chai-http';

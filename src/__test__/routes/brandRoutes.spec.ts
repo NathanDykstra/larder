@@ -1,4 +1,4 @@
-import { server } from '../index';
+import { server } from '../../index';
 import * as HttpStatus from 'http-status-codes';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
@@ -38,14 +38,8 @@ describe("update brand", () => {
         return chai.request(server)
             .put('/brand')
             .send({
-                Barcode: "1234",
-                Name: "Test Name Update",
-                Description: "Test Description",
-                Quantity: "32",
-                UoMId: "1",
-                Note: "This is a note",
-                BrandId: 1,
-                TypeId: 1
+                Id: 1,
+                Name: 'Update name'
             })
             .then(res => {
                 chai.expect(res.status).to.equal(HttpStatus.OK);
