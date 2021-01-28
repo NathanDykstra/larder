@@ -12,7 +12,7 @@
     "dev:start": "npm-run-all build start",
     "dev": "nodemon --watch src -e ts,pug --exec npm run dev:start",
     "start": "node .",
-    "test": "mocha -r ts-node/register src/__test__/*.spec.ts --exit"
+    "test": "mocha --recursive -r ts-node/register src/__test__/**/*.spec.ts --exit"
   },
   "repository": {
     "type": "git",
