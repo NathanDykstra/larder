@@ -48,7 +48,7 @@ export class Location {
     static fromJson = (json: any) => {
         const { error, value } = schema.validate(json);
 
-        if (json) {
+        if (!error) {
             const location = value as Location;
             
             return new Location(
