@@ -48,7 +48,7 @@ export class ItemType {
     static fromJson = (json: any) => {
         const { error, value } = schema.validate(json);
 
-        if (json) {
+        if (!error) {
             const itemType = value as ItemType;
             
             return new ItemType(
