@@ -49,7 +49,7 @@ export class UnitOfMeasure {
     static fromJson = (json: any) => {
         const { error, value } = schema.validate(json);
 
-        if (json) {
+        if (!error) {
             const uom = value as UnitOfMeasure;
             return new UnitOfMeasure(
                 uom.Id,
