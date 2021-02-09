@@ -1,7 +1,11 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Item } from './Item';
-import { ShoppingList } from './ShoppingList';
+import { Item } from '@models/Item';
+import { ShoppingList } from '@models/ShoppingList';
+import { shoppingListItemSchema } from './schemas/shoppingListItemSchema';
 
+/**
+ * An individual item on a shopping list.
+ */
 @Entity({name: 'ShoppingListItem'})
 export class ShoppingListItem {
 
@@ -19,11 +23,34 @@ export class ShoppingListItem {
     @Column()
     Quantity: number;
 
+    /**
+     *
+     * @param id
+     * @param quantity
+     */
     constructor(
         id: number = -1,
         quantity: number = 1,
     ) {
         this.Id = id;
         this.Quantity = quantity;
+    }
+
+    /**
+     * Deserializes the JSON into a ShoppingList.
+     * @param data
+     */
+    static fromJson = (json: any) => {
+        const { error, value } = shoppingListItemSchema.validate(json);
+
+        if (!error) {
+            const shoppingListItem = value as ShoppingListItem;
+            return new ShoppingListItem(
+                shoppingListItem.Id,
+                shoppingListItem.Quantity
+            );
+        }
+
+        throw error;
     }
 }

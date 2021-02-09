@@ -1,13 +1,5 @@
-import Joi from 'joi';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-
-/**
- * Database schema for the Brand model.
- */
-const schema = Joi.object({
-    Id: Joi.number(),
-    Name: Joi.string().required()
-});
+import { brandSchema } from './schemas/brandSchema';
 
 /**
  * Represents a Brand.
@@ -39,7 +31,7 @@ export class Brand {
      * @param json
      */
     static fromJson = (json: any) => {
-        const { error, value } = schema.validate(json);
+        const { error, value } = brandSchema.validate(json);
 
         if (!error) {
             const brand = value as Brand;

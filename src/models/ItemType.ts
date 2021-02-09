@@ -1,14 +1,5 @@
-import Joi from 'joi';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-
-/**
- * Database schema for the ItemType model.
- */
-const schema = Joi.object({
-    Id: Joi.number(),
-    Name: Joi.string().required(),
-    Description: Joi.string(),
-});
+import { itemTypeSchema } from './schemas/itemTypeSchema';
 
 /**
  * Represents an ItemType.
@@ -46,7 +37,7 @@ export class ItemType {
      * @param json
      */
     static fromJson = (json: any) => {
-        const { error, value } = schema.validate(json);
+        const { error, value } = itemTypeSchema.validate(json);
 
         if (!error) {
             const itemType = value as ItemType;

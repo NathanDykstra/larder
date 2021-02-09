@@ -1,14 +1,5 @@
-import Joi from 'joi';
 import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
-
-/**
- * Database schema for the UoM model.
- */
-const schema = Joi.object({
-    Id: Joi.number(),
-    Symbol: Joi.string().required(),
-    Description: Joi.string(),
-});
+import { unitOfMeasureSchema } from './schemas/unitOfMeasureSchema';
 
 /**
  * Represents a unit of measure.
@@ -47,7 +38,7 @@ export class UnitOfMeasure {
      * @param data
      */
     static fromJson = (json: any) => {
-        const { error, value } = schema.validate(json);
+        const { error, value } = unitOfMeasureSchema.validate(json);
 
         if (!error) {
             const uom = value as UnitOfMeasure;

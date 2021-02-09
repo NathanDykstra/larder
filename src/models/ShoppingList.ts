@@ -1,27 +1,33 @@
-import Joi from 'joi';
-import { Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { ShoppingListItem } from '@models/ShoppingListItem';
+import { shoppingListSchema } from './schemas/shoppingListSchema';
 
 /**
- * Database schema for the Shopping List model.
+ * A shopping list for keeping track of items to purchase.
  */
-const schema = Joi.object({
-    Id: Joi.number(),
-});
-
 @Entity({name: 'ShoppingList'})
 export class ShoppingList {
 
     @PrimaryGeneratedColumn('increment')
     Id: number;
     
-    @OneToMany(() => ShoppingListItem, shopListItem => shopListItem.ShoppingList)
     Items: ShoppingListItem[];
 
+    @Column()
+    Description: string;
+
+    /**
+     *
+     * @param id
+     */
     constructor(
         id: number = -1,
+        description: string = '',
+        items: ShoppingListItem[] = []
     ) {
         this.Id = id;
+        this.Description = description;
+        this.Items = items;
     }
 
     /**
@@ -29,12 +35,14 @@ export class ShoppingList {
      * @param data
      */
     static fromJson = (json: any) => {
-        const { error, value } = schema.validate(json);
+        const { error, value } = shoppingListSchema.validate(json);
 
-        if (json) {
+        if (!error) {
             const shoppingList = value as ShoppingList;
             return new ShoppingList(
-                shoppingList.Id
+                shoppingList.Id,
+                shoppingList.Description,
+                shoppingList.Items,
             );
         }
 
