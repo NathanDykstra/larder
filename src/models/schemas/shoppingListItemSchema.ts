@@ -1,4 +1,5 @@
 import Joi from "joi";
+import { itemSchema } from "./itemSchema";
 
 /**
  * Database schema for the Shopping List Item model.
@@ -6,6 +7,6 @@ import Joi from "joi";
 export const shoppingListItemSchema = Joi.object({
     Id: Joi.number(),
     ShoppingList: Joi.number(),
-    Item: Joi.array(),
+    Item: itemSchema,
     Quantity: Joi.number()
 });
