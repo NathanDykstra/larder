@@ -39,7 +39,8 @@ describe('fromJson', () => {
                         BrandId: 2,
                         TypeId: 3
                     },
-                    Quantity: 5
+                    Quantity: 5,
+                    ShoppingList: 1
                 }
             ],
         };

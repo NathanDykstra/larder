@@ -6,7 +6,7 @@ import { itemSchema } from "./itemSchema";
  */
 export const shoppingListItemSchema = Joi.object({
     Id: Joi.number(),
-    ShoppingList: Joi.number(),
-    Item: itemSchema,
-    Quantity: Joi.number()
+    ShoppingList: Joi.number().required(),
+    Item: itemSchema.required(),
+    Quantity: Joi.number().required()
 });
