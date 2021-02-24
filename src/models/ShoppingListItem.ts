@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Item } from '@models/Item';
-import { ShoppingList } from '@models/ShoppingList';
+import { Item } from './Item';
+import { ShoppingList } from './ShoppingList';
 import { shoppingListItemSchema } from './schemas/shoppingListItemSchema';
 
 /**
@@ -31,9 +31,13 @@ export class ShoppingListItem {
     constructor(
         id: number = -1,
         quantity: number = 1,
+        shoppingList: ShoppingList,
+        item: Item
     ) {
         this.Id = id;
         this.Quantity = quantity;
+        this.ShoppingList = shoppingList;
+        this.Item = item;
     }
 
     /**
@@ -47,7 +51,9 @@ export class ShoppingListItem {
             const shoppingListItem = value as ShoppingListItem;
             return new ShoppingListItem(
                 shoppingListItem.Id,
-                shoppingListItem.Quantity
+                shoppingListItem.Quantity,
+                shoppingListItem.ShoppingList,
+                shoppingListItem.Item
             );
         }
 

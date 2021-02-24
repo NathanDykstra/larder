@@ -1,4 +1,3 @@
-import { ShoppingListItem } from "../../models/ShoppingListItem";
 import { expect } from "chai";
 import { ShoppingList } from "../../models/ShoppingList";
 
