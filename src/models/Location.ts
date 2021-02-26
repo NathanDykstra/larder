@@ -1,14 +1,5 @@
-import Joi from 'joi';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-
-/**
- * Database schema for the location model.
- */
-const schema = Joi.object({
-    Id: Joi.number(),
-    Name: Joi.string().required(),
-    Description: Joi.string(),
-});
+import { locationSchema } from './schemas/locationSchema';
 
 /**
  * Represents a Location.
@@ -46,9 +37,9 @@ export class Location {
      * @param json
      */
     static fromJson = (json: any) => {
-        const { error, value } = schema.validate(json);
+        const { error, value } = locationSchema.validate(json);
 
-        if (json) {
+        if (!error) {
             const location = value as Location;
             
             return new Location(

@@ -1,19 +1,5 @@
-import * as Joi from 'joi';
 import { Column, Entity, PrimaryColumn } from 'typeorm';
-
-/**
- * Database schema for the Item model.
- */
-const schema = Joi.object({
-    Barcode: Joi.string().required(),
-    Name: Joi.string(),
-    Description: Joi.string(),
-    Quantity: Joi.number().required(),
-    UoMId: Joi.number().required(),
-    BrandId: Joi.number().required(),
-    TypeId: Joi.number().required(),
-    Note: Joi.string()
-})
+import { itemSchema } from './schemas/itemSchema';
 
 /**
  * Represents an Item.
@@ -73,7 +59,7 @@ export class Item {
      * @param json
      */
     static fromJson = (json: any) => {
-        const { error, value } = schema.validate(json);
+        const { error, value } = itemSchema.validate(json);
 
         if (!error) {
             const item = value as Item;

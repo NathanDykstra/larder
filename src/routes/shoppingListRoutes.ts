@@ -1,29 +1,29 @@
-import * as express from 'express';
+import { deleteShoppingList, getShoppingList, saveShoppingList, updateShoppingList } from '@data/shoppingList';
+import { ShoppingList } from '@models/ShoppingList';
 import { logger } from '@util/logger';
-import { Item } from '@models/Item';
+import * as express from 'express';
+import * as HttpStatus from 'http-status-codes';
 import { ValidationError } from 'joi';
 import { DeleteResult, InsertResult, UpdateResult } from 'typeorm';
-import * as HttpStatus from 'http-status-codes';
-import { deleteItemFromLibrary, getItem, saveItemToLibrary, updateItemInLibrary } from '@data/item';
 
 /**
- * Configure the routes for accessing Item data.
+ * Configure the routes for accessing Shopping List data.
  * @param app The express app.
  */
-export const registerItemRoutes = (app: express.Application) => {
+export const registerShoppingListRoutes = (app: express.Application) => {
 
     /**
-     * Looks up the product by barcode and sends back the data.
+     *
      */
-    app.get('/item/:barcode', (req, res) => {
-        logger.debug('get item', req.params);
+    app.get('/shoppingList/:id', (req, res) => {
+        logger.debug('get shopping list', req.params);
 
-        getItem(req.params.barcode)
-            .then(item => {
-                if (item) {
-                    res.json(item).status(HttpStatus.OK);
+        getShoppingList(Number(req.params.id))
+            .then(shoppingList => {
+                if (shoppingList) {
+                    res.json(shoppingList).status(HttpStatus.OK);
                 } else {
-                    res.json({error: `No item by that barcode was found`}).status(HttpStatus.NOT_FOUND);
+                    res.json({error: `No shopping list by that ID was found`}).status(HttpStatus.NOT_FOUND);
                 }
             })
             .catch(error => {
@@ -32,15 +32,15 @@ export const registerItemRoutes = (app: express.Application) => {
     });
 
     /**
-     * Adds an item to the master inventory list.
+     * Adds a shopping list.
      */
-    app.post('/item', (req, res) => {
-        logger.debug('add item', req.body);
+    app.post('/shoppingList', (req, res) => {
+        logger.debug('add shopping list', req.body);
 
         try {
-            // validate input is actually an item
-            const item = Item.fromJson(req.body);
-            saveItemToLibrary(item)
+            // validate input is actually a shopping list
+            const shoppingList = ShoppingList.fromJson(req.body);
+            saveShoppingList(shoppingList)
                 .then((inserted: InsertResult) => {
                     res.status(HttpStatus.OK).json(inserted.identifiers[0]);
                 })
@@ -54,15 +54,15 @@ export const registerItemRoutes = (app: express.Application) => {
     });
 
     /**
-     * Updates an existing Item in the library.
+     * Updates the shopping list record.
      */
-    app.put('/item', (req, res) => {
-        logger.debug('update item', req.body);
+    app.put('/shoppingList', (req, res) => {
+        logger.debug('update shopping list', req.body);
 
         try {
-            const item = Item.fromJson(req.body);
+            const shoppingList = ShoppingList.fromJson(req.body);
 
-            updateItemInLibrary(item)
+            updateShoppingList(shoppingList)
                 .then((updated: UpdateResult) => {
                     res.status(HttpStatus.OK).json(updated);
                 })
@@ -76,12 +76,12 @@ export const registerItemRoutes = (app: express.Application) => {
     });
 
     /**
-     * Deletes the Item from the library.
+     * Deletes the shopping list.
      */
-    app.delete('/item/:barcode', (req, res) => {
-        logger.debug('delete item', req.params);
+    app.delete('/shoppingList/:id', (req, res) => {
+        logger.debug('delete shopping list', req.params);
 
-        deleteItemFromLibrary(req.params.barcode)
+        deleteShoppingList(Number(req.params.id))
             .then((deleted: DeleteResult) => {
                 res.status(HttpStatus.OK).json(deleted);
             })
