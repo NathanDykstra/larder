@@ -41,7 +41,7 @@
     "module-alias": "^2.2.2",
     "mssql": "^6.3.1",
     "mysql": "^2.18.1",
-    "pug": "^3.0.0",
+    "pug": "^3.0.1",
     "reflect-metadata": "^0.1.13",
     "sql.js": "^1.4.0",
     "sqlstring": "^2.3.2",
