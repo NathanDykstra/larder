@@ -45,7 +45,7 @@
     "reflect-metadata": "^0.1.13",
     "sql.js": "^1.4.0",
     "sqlstring": "^2.3.2",
-    "typeorm": "^0.2.31",
+    "typeorm": "^0.3.14",
     "winston": "^3.3.3"
   },
   "devDependencies": {
